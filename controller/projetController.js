@@ -1,6 +1,6 @@
-const path = require('path')
 const { findById } = require('../models/Projet.js');
 const Projet = require('../models/Projet.js');
+const path = require('path');
 const fs = require('fs');
 const addProjet = async (req, res) => {
 
@@ -75,12 +75,12 @@ const modifierProjet = async (req, res) => {
         type: req.body.type,
     };
     if (req.files !== undefined && req.files.video !== undefined) {
-        const video = req.files.video[0];
+        const video = path.basename(req.files.video[0]);
         localData['video'] = video;
     }
 
     if (req.files !== undefined && req.files.images !== undefined) {
-        const images = req.files.images.map(file => file.path);
+        const images = req.files.images.map(file => path.basename(file.path));
         localData['images'] = images;
 
     }
@@ -113,16 +113,13 @@ const modifierProjet = async (req, res) => {
 
 const deleteById = async (req, res) => {
     try {
-        console.log("are you in controller?")
-        console.log(__dirname)
-        const PATH_TO_PROJECT = path.join(__dirname,`../`);
+        const PATH_TO_UPLOADS = path.join(__dirname,'..','uploads');
 
-        console.log(PATH_TO_PROJECT)
         const _id = req.params._id;
         const projet = await Projet.findById(_id);
         const imagesNames = projet.images;
         console.log(imagesNames);
-        const videoPath =  `${PATH_TO_PROJECT}/${projet.video}`;
+        const videoPath = path.join(PATH_TO_UPLOADS,'videosProjet',projet.video);
         console.log(videoPath);
         
 
@@ -132,9 +129,8 @@ const deleteById = async (req, res) => {
             return res.sendStatus(500);
         }
         if (imagesNames !== undefined) {
-            console.log('dkhal ihne');
             imagesNames.forEach((imageName) => {
-                const filePath = `${PATH_TO_PROJECT}/${imageName}`
+                const filePath = path.join(PATH_TO_UPLOADS,'imagesProjet',imageName);
                 console.log(filePath);
                 fs.unlink(filePath, (error) => {
                     if (error) {

@@ -12,6 +12,10 @@ const addArticle = async (req, res) => {
                 return res.status(400).send({ message: 'please upload an image' });
             }
             images.push(path.basename(file.path))
+            // const parts = file.path.split(path.sep);
+            // parts.shift();
+            // images.push(parts.join(path.sep));
+            console.log(images);
         };
         const article = new Article({ contenu, description, titre, images });
         await article.save();
@@ -91,7 +95,7 @@ const modifierArticle = async (req, res) => {
 }
 const deleteById = async (req, res) => {
     try {
-        const PATH_TO_THE_IMAGES_ARTICLE_DIRECTORY = '/home/achref/Document/projects/melkart/back_ecosolution/uploads/imagesArticle' 
+        const PATH_TO_THE_IMAGES_ARTICLE_DIRECTORY = path.join(__dirname,'..','uploads','imagesArticle');
         const _id = req.params._id;
         const article = await Article.findById(_id);
         const imagesNames = article.images;
@@ -101,7 +105,7 @@ const deleteById = async (req, res) => {
         }
         if (imagesNames !== undefined) {
             imagesNames.forEach((imageName) => {
-                const filePath = `${PATH_TO_THE_IMAGES_ARTICLE_DIRECTORY}/${imageName}`
+                const filePath = path.join(PATH_TO_THE_IMAGES_ARTICLE_DIRECTORY,imageName);
                 fs.unlink(filePath,(error)=>{
                     if (error) {
                         console.log(error);
