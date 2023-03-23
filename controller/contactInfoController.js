@@ -37,10 +37,11 @@ const getContactInfo = async (req, res) => {
 
 
 const modifierContactInfo = async (req, res) => {
+    console.log("req.body",req.body)
     const _id = req.params._id;
-    const { siegeSocial, numeroTelephone,email,localisation,LienFacebook } = req.body;
+    const { siegeSocial, numeroTelephone,email,localisation,lienFacebook } = req.body;
     const modifiedContactInfo = {
-        siegeSocial, numeroTelephone,email,localisation,LienFacebook
+        siegeSocial, numeroTelephone,email,localisation,lienFacebook
     };
 
     if (!modifiedContactInfo) {
