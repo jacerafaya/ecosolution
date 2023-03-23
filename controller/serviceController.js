@@ -79,7 +79,7 @@ const deleteById = async (req, res) => {
     try {
         const _id = req.params._id;
         const service = await Service.findById(_id);
-        const imagePath = `/home/achref/Document/projects/melkart/back_ecosolution/uploads/imageService/${service.image}`;
+        const imagePath = path.join(__dirname,'..','uploads','imageService',service.image);
         const result = await Service.deleteOne({ _id });
         if (result.deletedCount === 0) {
             return res.sendStatus(500);
