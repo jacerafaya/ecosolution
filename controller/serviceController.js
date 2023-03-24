@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const addService = async (req, res) => {
     const { titre, description } = req.body;
+    if(!req.file){return res.status(400).send("problem with the sended data of object service")}
     const image = path.basename(req.file.path);
     const service = new Service({ titre, description, image });
 
