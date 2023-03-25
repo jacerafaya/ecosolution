@@ -4,10 +4,8 @@ const coordonneClientController = require("../controller/coordonneClientControll
 
 
 router.post("/coordonneClient/nouveauCoordonneClient", async (req, res) => {
-    console.log("heni houni")
     coordonneClientController.addCoordonneClient(req, res);
 });
-
 
 
 router.get("/coordonneClient", async (req, res) => {
