@@ -54,8 +54,8 @@ const modifierService = async (req, res) => {
         const image = path.basename(req.file.path)
         modifiedService['image'] = image;
     }
-
-    if (!modifiedService) {
+    
+    if (titre==='' || description==='' || !modifiedService) {
         return res.sendStatus(402);
     }
     try {

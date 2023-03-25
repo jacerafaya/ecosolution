@@ -11,6 +11,7 @@ const service_router = require('./routes/serviceRoute');
 const contactInfo_router = require('./routes/contactInfoRoute');
 const coordonneClient_router = require('./routes/coordonneClientRoute');
 const admin = require('./routes/adminRoute');
+const puissance_router = require('./routes/puissanceRoute');
 const cors = require('cors');
 
 connectMongo();
@@ -24,7 +25,7 @@ app.use(service_router);
 app.use(contactInfo_router);
 app.use(coordonneClient_router);
 app.use(admin);
-
+app.use(puissance_router);
 app.listen(port, () => {
   console.log(`Running at Port ${port}`);
 });

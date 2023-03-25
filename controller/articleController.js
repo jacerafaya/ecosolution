@@ -5,21 +5,22 @@ const fs = require('fs');
 
 const addArticle = async (req, res) => {
     const { contenu, description, titre } = req.body;
+    
     try {
+        if(req.files == undefined || req.files.length === 0)
+            {return res.status(400).send("problem when adding the article");}
         const images = [];
         for (const file of req.files) {
             if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
                 return res.status(400).send({ message: 'please upload an image' });
             }
             images.push(path.basename(file.path))
-            // const parts = file.path.split(path.sep);
-            // parts.shift();
-            // images.push(parts.join(path.sep));
             console.log(images);
         };
         const article = new Article({ contenu, description, titre, images });
         await article.save();
         res.send(article);
+    
     } catch (e) {
         res.status(400).send("problem when adding the article");
     }
@@ -69,7 +70,7 @@ const modifierArticle = async (req, res) => {
         });
 
     }
-    if (!modifiedArticle) {
+    if (modifiedArticle.titre==='' || modifiedArticle.description==='' || modifiedArticle.contenu==='') {
         return res.send('no value provided to make modifications');
     }
     console.log(modifiedArticle);
