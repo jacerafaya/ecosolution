@@ -37,6 +37,9 @@ router.get(
         projetController.getProjets(req, res);
     }
 )
+router.get("/latestProjets", async (req, res) =>{
+    projetController.getLatestProjets(req, res);
+})
 
 router.put("/projet/update/:_id",upload.fields([{ name: 'images', maxCount: 10 }, { name: 'video', maxCount: 1 }]), async (req, res) => {
     projetController.modifierProjet(req, res);

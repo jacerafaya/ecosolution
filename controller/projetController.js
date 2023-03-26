@@ -3,31 +3,29 @@ const Projet = require('../models/Projet.js');
 const path = require('path');
 const fs = require('fs');
 const addProjet = async (req, res) => {
+    const { description, titre, adresse, productionAnuelle, type } = req.body;
+    try {
+        const images = [];
+        for (const file of req.files.images) {
+            if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
+                return res.status(400).send({ message: 'please upload an image' });
+            }
+            images.push(path.basename(file.path))
+        };
+        const video = path.basename(req.files.video[0].path);
+        console.log("tab3a kamla ",description, titre,adresse,productionAnuelle,type,images,video)
+        if (images.length !== 0 && titre !== '' && adresse !== '' && description !== '' && productionAnuelle !== '' && type !== '' && video !== null) {
+            const projet = new Projet({ description, titre, adresse, productionAnuelle, type, images, video });
 
+            await projet.save();
+            return res.send(projet);
 
-    const {description, titre,adresse,productionAnuelle,type } = req.body;
-try {
-    const images = [];
-    for (const file of req.files.images) {
-        if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
-            return res.status(400).send({ message: 'please upload an image' });
         }
-        images.push(path.basename(file.path))
-    };
-    const video = path.basename(req.files.video[0].path);
-    //console.log("tab3a kamla ",description, titre,adresse,productionAnuelle,type,images,video)
-    if (images.length!==0 && titre !== '' && adresse !== '' && description !== '' && productionAnuelle !== '' && type !== '' && video !==null){
-    const projet = new Projet({description, titre,adresse,productionAnuelle,type,images,video });
+        res.status(400).send("Missing data to create project instance");
 
-    await projet.save();
-    return res.send(projet);
-    
-}
-res.status(400).send("Missing data to create project instance");
-
-} catch (e) {
-    res.status(400).send("problem when adding the projet");
-}
+    } catch (e) {
+        res.status(400).send("problem when adding the projet");
+    }
 
 };
 
@@ -63,6 +61,17 @@ const getProjets = async (req, res) => {
     }
 };
 
+const getLatestProjets = async (req, res) => {
+    try {
+        const result = await Projet.find()
+            .sort({ createdAt: -1 })
+            .limit(1);
+        res.send(result);
+
+    } catch (error) {
+        res.sendStatus(500);
+    }
+}
 
 const modifierProjet = async (req, res) => {
     console.log(req.files);
@@ -113,15 +122,15 @@ const modifierProjet = async (req, res) => {
 
 const deleteById = async (req, res) => {
     try {
-        const PATH_TO_UPLOADS = path.join(__dirname,'..','uploads');
+        const PATH_TO_UPLOADS = path.join(__dirname, '..', 'uploads');
 
         const _id = req.params._id;
         const projet = await Projet.findById(_id);
         const imagesNames = projet.images;
         console.log(imagesNames);
-        const videoPath = path.join(PATH_TO_UPLOADS,'videosProjet',projet.video);
+        const videoPath = path.join(PATH_TO_UPLOADS, 'videosProjet', projet.video);
         console.log(videoPath);
-        
+
 
         const result = await Projet.deleteOne({ _id });
         console.log(result);
@@ -130,7 +139,7 @@ const deleteById = async (req, res) => {
         }
         if (imagesNames !== undefined) {
             imagesNames.forEach((imageName) => {
-                const filePath = path.join(PATH_TO_UPLOADS,'imagesProjet',imageName);
+                const filePath = path.join(PATH_TO_UPLOADS, 'imagesProjet', imageName);
                 console.log(filePath);
                 fs.unlink(filePath, (error) => {
                     if (error) {
@@ -166,6 +175,7 @@ module.exports = {
     addProjet,
     getProjetById,
     getProjets,
+    getLatestProjets,
     modifierProjet,
     deleteById
 };

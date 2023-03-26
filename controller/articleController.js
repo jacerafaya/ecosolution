@@ -41,7 +41,7 @@ const getArticleById = async (req, res) => {
 
 const getArticles = async (req, res) => {
     try {
-        let result = await Article.find();
+        const result = await Article.find();
         if (!result) {
             return res.sendStatus(404);
         }
@@ -52,6 +52,17 @@ const getArticles = async (req, res) => {
     }
 };
 
+const getLatestArticles = async (req, res) => {
+    try {
+       const result = await Article.find()
+                                     .sort({createdAt: -1})
+                                        .limit(1); 
+        res.send(result);
+
+    } catch (error) {
+       res.sendStatus(500); 
+    }
+} 
 const modifierArticle = async (req, res) => {
     const images = [];
     const modifiedArticle = {
@@ -126,6 +137,7 @@ module.exports = {
     addArticle,
     getArticleById,
     getArticles,
+    getLatestArticles,
     modifierArticle,
     deleteById
 };

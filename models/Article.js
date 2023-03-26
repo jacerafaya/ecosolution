@@ -13,7 +13,11 @@ const articleSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    images: [String]
+    images: [String],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
 
 });
 

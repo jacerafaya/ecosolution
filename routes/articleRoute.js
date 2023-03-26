@@ -1,8 +1,10 @@
-const express = require("express");
+const express = require('express');
 
 const router = new express.Router();
-const articleController = require("../controller/articleController");
-const multer = require("multer");
+const articleController = require('../controller/articleController');
+const auth = require('../middleware/authAdmin');
+const multer = require('multer');
+
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, 'uploads/imagesArticle');
@@ -31,6 +33,9 @@ router.get("/articles", async (req, res) => {
     articleController.getArticles(req, res);
 });
 
+router.get("/latestArticles", async (req, res) =>{
+    articleController.getLatestArticles(req, res);
+})
 router.put("/article/update/:_id", upload.array('images', 10), async (req, res) => {
     articleController.modifierArticle(req, res);
 });
