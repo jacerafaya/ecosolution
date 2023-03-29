@@ -3,6 +3,7 @@ const express = require('express');
 const router = new express.Router();
 const articleController = require('../controller/articleController');
 const auth = require('../middleware/authAdmin');
+const httpOnlyCookieGetter = require('../middleware/httpOnlyCookieGetter');
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -21,9 +22,7 @@ const upload = multer({
     storage: storage
 });
 
-router.post("/article/ajouter_article", upload.array('images', 10), async (req, res) => {
-    articleController.addArticle(req, res);
-});
+router.post("/article/ajouter_article", auth, upload.array('images', 10), articleController.addArticle);
 
 router.get("/article/:_id", async (req, res) => {
     articleController.getArticleById(req, res);

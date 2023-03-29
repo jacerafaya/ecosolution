@@ -18,10 +18,20 @@ const loginAdmin = async (req, res) => {
     try {
         console.log('dkhalit lil controller', req.body.email);
         const admin = await Admin.findByCredentials(req.body.email, req.body.password)
-        console.log(admin);
         const token = await admin.generateAuthToken()
         console.log('token', token);
-        res.send({ admin, token })
+        res.cookie('token', token, {
+            httpOnly: true,
+            sameSite: 'none',
+            secure: false,
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+        }, () => {
+            console.log('cookie set successfully');
+        });
+        // req.session.token = token;
+        // res.end(req.session.token);
+        res.send(token);
+        // res.send({ admin, token })
     } catch (e) {
         res.sendStatus(400)
     }

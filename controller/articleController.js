@@ -5,6 +5,10 @@ const fs = require('fs');
 
 const addArticle = async (req, res) => {
     const { contenu, description, titre } = req.body;
+    console.log('hedha itoken we ekhiran', req.cookies.token)
+    // console.log('hedhi isession',req.session)
+    // const token = req.session.token;
+    // console.log('hedha itoken imta3 isession hedhi fil article', token);
     
     try {
         if(req.files == undefined || req.files.length === 0)

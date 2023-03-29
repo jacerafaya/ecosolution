@@ -1,6 +1,8 @@
 require('dotenv').config();
 const path = require('path')
-const express = require("express");
+const express = require('express');
+// const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 5050;
 const body_parser = require('body-parser');
@@ -15,8 +17,21 @@ const puissance_router = require('./routes/puissanceRoute');
 const cors = require('cors');
 
 connectMongo();
-
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',
+    credentials:true
+};
+app.use(cors(corsOptions));
+// app.use(cookieSession({
+//   name: 'session',
+//   secret: ['key1', 'key2'],
+//   httpOnly: true,
+//   secure: false,
+//   path: '/',
+//   maxAge: 30 * 24 * 60 * 60 * 1000,
+//   sameSite: 'none'
+// }));
+app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '/uploads')));
 app.use(body_parser.json());
 app.use(projet_router);
