@@ -6,6 +6,8 @@ const auth = async (req, res, next) => {
         // const token = req.header('Authorization').replace('Bearer ', '')
         // const token = req.token.replace('Bearer ', '');
         // console.log(token);
+        console.log('nahna fil auth');
+        console.log('hedha token mil auth', req.cookies.token);
         const decoded = jwt.verify(req.cookies.token, 'thisIsMySecretMessage')
         console.log('decoded', decoded);
         console.log('t3adit');

@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const serviceController = require("../controller/serviceController");
 const multer = require('multer');
+const auth = require("../middleware/authAdmin");
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -25,7 +26,7 @@ const upload = multer({
     storage: storage
 })
 
-router.post("/service/ajouter_service", upload.single('image'), async (req, res) => {
+router.post("/service/ajouter_service", auth, upload.single('image'), async (req, res) => {
     serviceController.addService(req, res);
 });
 
@@ -37,11 +38,11 @@ router.get("/services", async (req, res) => {
     serviceController.getServices(req, res);
 });
 
-router.put("/service/update/:_id", upload.single('image'), async (req, res) => {
+router.put("/service/update/:_id", auth, upload.single('image'), async (req, res) => {
     serviceController.modifierService(req, res);
 });
 
-router.delete("/service/:_id", async (req, res) => {
+router.delete("/service/:_id", auth, async (req, res) => {
     serviceController.deleteById(req, res);
 });
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const puissanceController = require("../controller/puissanceController");
+const auth = require("../middleware/authAdmin");
 
 
 router.post("/puissance/nouveauPuissance", async (req, res) => {
@@ -16,7 +17,7 @@ router.get("/puissance", async (req, res) => {
 });
 
 
-router.put("/puissance/update/:_id", async (req, res) => {
+router.put("/puissance/update/:_id", auth, async (req, res) => {
     puissanceController.modifierPuissance(req, res);
 });
 
