@@ -28,10 +28,7 @@ const loginAdmin = async (req, res) => {
         }, () => {
             console.log('cookie set successfully');
         });
-        // req.session.token = token;
-        // res.end(req.session.token);
-        res.send(token);
-        // res.send({ admin, token })
+        res.send('Success');
     } catch (e) {
         res.sendStatus(400)
     }
@@ -43,7 +40,8 @@ const logoutCurrentSessionAdmin = async (req, res) => {
         })
         console.log(req.admin.tokens);
         await req.admin.save()
-        res.send()
+        res.cookie('token', '', { expires: new Date(0) });
+        res.send('logout with success');
     } catch (e) {
         res.sendStatus(500)
     }
