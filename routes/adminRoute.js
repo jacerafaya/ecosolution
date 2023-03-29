@@ -12,6 +12,7 @@ router.post('/admin/login', async (req, res) => {
 });
 
 router.post('/admin/logout', auth, async (req, res) => {
+    console.log('ena fil admin logout');
     adminController.logoutCurrentSessionAdmin(req, res);
 });
 

@@ -21,7 +21,7 @@ const auth = async (req, res, next) => {
         }
 
         req.token = req.cookies.token;
-        // req.admin = admin
+        req.admin = admin
         console.log('token, admin',req.token);
         next()
     } catch (e) {
