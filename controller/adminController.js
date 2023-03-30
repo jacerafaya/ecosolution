@@ -6,7 +6,7 @@ const addAdmin = async (req, res) => {
     try {
         await admin.save()
         const token = await admin.generateAuthToken()
-        res.status(201).send({ medecin: admin, token })
+        res.status(201).send({ admin: admin, token })
     } catch (e) {
         res.status(400).send(e)
     }

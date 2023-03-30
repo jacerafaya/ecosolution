@@ -4,22 +4,11 @@ const puissanceController = require("../controller/puissanceController");
 const auth = require("../middleware/authAdmin");
 
 
-router.post("/puissance/nouveauPuissance", async (req, res) => {
-    console.log("houni router")
-    puissanceController.addPuissance(req, res);
-    
-});
+router.post("/puissance/nouveauPuissance",puissanceController.addPuissance);
 
 
+router.get("/puissance", puissanceController.getPuissance);
 
-router.get("/puissance", async (req, res) => {
-    puissanceController.getPuissance(req, res);
-});
-
-
-router.put("/puissance/update/:_id", auth, async (req, res) => {
-    puissanceController.modifierPuissance(req, res);
-});
-
+router.put("/puissance/update/:_id", auth, puissanceController.modifierPuissance);
 
 module.exports = router;
