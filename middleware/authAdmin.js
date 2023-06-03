@@ -3,10 +3,7 @@ const Admin = require('../models/Admin')
 
 const auth = async (req, res, next) => {
     try {
-        // const token = req.header('Authorization').replace('Bearer ', '')
-        // const token = req.token.replace('Bearer ', '');
-        // console.log(token);
-        console.log('nahna fil auth');
+        console.log('nahna fil auth');       
         console.log('hedha token mil auth', req.cookies.token);
         const decoded = jwt.verify(req.cookies.token, 'thisIsMySecretMessage')
         console.log('decoded', decoded);
@@ -14,7 +11,7 @@ const auth = async (req, res, next) => {
         const admin = await Admin.findOne({ _id: decoded._id, 'tokens.token': req.cookies.token })
         console.log('admin mil middleware', admin);
         console.log('hata lina');
-        
+
 
         if (!admin) {
             throw new Error()

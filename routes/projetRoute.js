@@ -8,10 +8,10 @@ const auth = require('../middleware/authAdmin');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-            cb(null, './uploads/imagesProjet');
+            cb(null, 'uploads/imagesProjet');
         }
         else if (file.mimetype === 'video/mp4') {
-            cb(null, './uploads/videosProjet');
+            cb(null, 'uploads/videosProjet');
         }
     },
     filename: (req, file, cb) => {

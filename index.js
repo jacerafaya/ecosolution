@@ -19,7 +19,7 @@ const cors = require('cors');
 
 connectMongo();
 const corsOptions = {
-    origin: ['http://localhost:3000','http://localhost:3001'],
+    origin: ['http://app.ecosolution.tn', 'http://www.ecosolution.tn', 'https://www.ecosolution.tn/'],
     credentials: true
 };
 
