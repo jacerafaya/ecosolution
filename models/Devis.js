@@ -59,6 +59,11 @@ const devisSchema = new mongoose.Schema({
         require: true
 
     },
+    region: {
+        type: String,
+        require: true
+
+    },
     puissance: {
         type: Number,
         require: true

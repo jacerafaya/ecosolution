@@ -22,8 +22,8 @@ const loginAdmin = async (req, res) => {
         console.log('token', token);
         res.cookie('token', token, {
             httpOnly: true,
-            sameSite: 'lax',
-            secure: false,
+            sameSite: 'none',
+            secure: true,
             maxAge: 30 * 24 * 60 * 60 * 1000,
         }, () => {
             console.log('cookie set successfully');
